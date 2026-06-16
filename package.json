@@ -1,0 +1,17 @@
+{
+  "name": "01_firecrawl_spec",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^25.9.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "firecrawl": "^4.26.0",
+    "zod": "^4.4.3"
+  }
+}
