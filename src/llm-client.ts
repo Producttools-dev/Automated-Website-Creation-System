@@ -2,7 +2,7 @@
 
 import { GoogleGenAI } from "@google/genai";
 import { zodToJsonSchema } from "zod-to-json-schema";
-import { SpecFileSchema } from "./types";
+import { SpecFileSchema, WebPageSpecSchema } from "./types";
 
 const ai = new GoogleGenAI({});
 
@@ -13,7 +13,7 @@ export async function askLlm(prompt?: string) {
 			contents: prompt || "Explain how AI works in a few words",
 			config: {
 				responseMimeType:"application/json",
-				responseSchema: zodToJsonSchema(SpecFileSchema),
+				responseSchema: zodToJsonSchema(WebPageSpecSchema),
 				
 			},
 		});

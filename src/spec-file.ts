@@ -23,7 +23,8 @@ export async function generateSpecFiles(
 		images: string,
 		link: string,
 		metadata: string,
-		branding: string,
+		branding: string, 
+        screenshot_url: string
 	) => `
         
         You are a website analyst. Given the full content of a webpage, analyze it thoroughly and return a structured specification.
@@ -35,6 +36,7 @@ export async function generateSpecFiles(
         - **links**: Array of links present on the page
         - **branding**: Brand guidelines for the website
         - **metadata**: Page metadata
+        - **fullpage-screenshot"" : To Analyze UI Visually 
 
         ## Output Requirements
         Return a JSON object strictly matching this structure:
@@ -75,7 +77,9 @@ export async function generateSpecFiles(
 
         ## Metadata 
         ${metadata}
-            
+        
+        ## fullpage screenshot
+        ${screenshot_url}
     
     
     `;
@@ -94,13 +98,14 @@ export async function generateSpecFiles(
             JSON.stringify(item.links),
             JSON.stringify(item.metadata),
             JSON.stringify(item.branding),
+            item.screenshot! || ""
         );
 
         console.log(` Brewing Prompt for : ${item.metadata?.sourceURL}`);
         console.log(` Prompt length : ${PROMPT.length}`);
 
         const sanitized = item.metadata?.sourceURL?.replace(/[^a-z0-9]/gi, "_") ?? `page_${index}`;  
-        const filename = `${sanitized}_crawled.json`;
+        const filename = `${sanitized}_${Date.now()}.json`;
 
         console.log(`Asking for Audit...`);
         const spec = await askLlm(PROMPT);
