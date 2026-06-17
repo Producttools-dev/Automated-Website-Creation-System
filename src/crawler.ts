@@ -63,3 +63,21 @@ export async function crawler(baseUrl : string ) {
 
   ;
 }
+
+
+export async function getDatabyCrawlId(id: string) {
+    const status = await app.getCrawlStatus(id);
+
+    if(status.status === "completed")  { 
+
+      return { 
+        status: "completed", 
+        data : status.data
+      }
+    }; 
+
+    return { 
+      status : status.status, 
+      data : null
+    }
+}

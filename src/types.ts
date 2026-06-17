@@ -2,8 +2,6 @@ import z, { string } from 'zod';
 
 
 
-
-
 export const WebSiteContentSchema = z.object({ 
     markdown : z.string().describe("Contains the full single webpage in markdown format"), 
     images : z.array(z.string()).describe("contains all the images urls that are present on the webpage"), 
@@ -31,6 +29,8 @@ export const SpecFileSchema = z.object({
     suggected_ui_components : z.array(z.string()).describe("Suggested ui component type (e.g. HeroWithCTA, ServiceGrid, TestimonialCarousel)"),
     seo_issues : z.array(z.string()).describe("SEO problems specific to this section "),
     seo_improvement_tips : z.array(z.string()).describe("SEO improvement tips specific to this section "),
+
+    sitemap: z.array(z.string()).describe("suggested sitemap of the whole page in markdown format"),
     
 })
 
