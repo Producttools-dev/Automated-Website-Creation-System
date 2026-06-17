@@ -10,16 +10,11 @@ export const WebSiteContentSchema = z.object({
     metadata: z.any(), 
 })
 
-
-
-// spec added
-export const SpecFileSchema = z.object({ 
-
-    business_name : z.string().describe("contains full name of the business"), 
-    business_category : z.string().describe("should point to the category the business is related to"), 
-    tagline : z.string().describe("catchy tagline about the business"), 
-    summary: z.string().describe("brief summary about the busines in 80 to 150 words").min(80).max(100), 
-    sections: z.array(z.string()).describe("it has all the sections that website has or should have related to business"), 
+export const WebPageSpecSchema = z.object({ 
+    pageName : z.string().describe("should point to the page name such as contact-us, home, gallery etc "),
+    pageUrl: z.string().describe("should point to page url from original webpage"), 
+    summary: z.string().describe("brief summary about the webpage in 80 to 150 words").min(80).max(100), 
+    sections: z.array(z.string()).describe("it has all the sections that webpage has"), 
     general_feedback : z.array(z.string()).describe("should contains about the overall feedback of content, sections , ui"), 
 
     missing_sections : z.array(z.string()).describe("should contain any missing sections if any"),
@@ -29,10 +24,24 @@ export const SpecFileSchema = z.object({
     suggected_ui_components : z.array(z.string()).describe("Suggested ui component type (e.g. HeroWithCTA, ServiceGrid, TestimonialCarousel)"),
     seo_issues : z.array(z.string()).describe("SEO problems specific to this section "),
     seo_improvement_tips : z.array(z.string()).describe("SEO improvement tips specific to this section "),
+    
+})
+
+// spec added
+export const SpecFileSchema = z.object({ 
+
+    business_name : z.string().describe("contains full name of the business"), 
+    business_category : z.string().describe("should point to the category the business is related to"), 
+    tagline : z.string().describe("catchy tagline about the business"), 
+    
+    webpages : z.array(WebPageSpecSchema), 
 
     sitemap: z.array(z.string()).describe("suggested sitemap of the whole page in markdown format"),
     
 })
+
+
+
 
 
 const WebsiteGenSchema = z.union([SpecFileSchema, WebSiteContentSchema]);
