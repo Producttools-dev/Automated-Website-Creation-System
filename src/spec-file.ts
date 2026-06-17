@@ -109,7 +109,7 @@ export async function generateSpecFiles(
         console.log(`Spec file generated for url : ${item.metadata?.sourceURL}`);
         console.log(`Writing to file...`);
 
-        await writeFile(`./spec_file/${filename}`, JSON.stringify(spec || { data: null }));  
+        await writeFile(`./src/spec_file/${filename}`, JSON.stringify(spec || { data: null }));  
 
         console.log(`file written : filename= ${filename}`);
         console.log(" ");
