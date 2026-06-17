@@ -80,41 +80,38 @@ export async function generateSpecFiles(
     
     `;
 
-	payload.data.map(async (item, index) => {
-        
-		console.log(`For page url : ${index} :  ${item.metadata?.sourceURL}`);
-		let PROMPT = getPrompt(
-			item.markdown!,
-			JSON.stringify(item.images),
-			JSON.stringify(item.links),
-			JSON.stringify(item.metadata),
-			JSON.stringify(item.branding),
-		);
 
-		console.log(` Brewing Prompt for : ${item.metadata?.sourceURL}`);
-		console.log(` Prompt length : ${PROMPT.length}`);
+	for (const [index, item] of payload.data.entries()) {
+        if (count >= 5) break;                                    
 
-		const filename = `${item.metadata?.sourceURL}_crawled.json`;
+        console.log(`For page url : ${index} : ${item.metadata?.sourceURL}`);
+        const PROMPT = getPrompt(
+            item.markdown!,
+            JSON.stringify(item.images),
+            JSON.stringify(item.links),
+            JSON.stringify(item.metadata),
+            JSON.stringify(item.branding),
+        );
 
-		console.log(`Asking for Audit... `);
+        console.log(` Brewing Prompt for : ${item.metadata?.sourceURL}`);
+        console.log(` Prompt length : ${PROMPT.length}`);
 
-		if (count > 4) return;
+        const sanitized = item.metadata?.sourceURL?.replace(/[^a-z0-9]/gi, "_") ?? `page_${index}`;  
+        const filename = `${sanitized}_crawled.json`;
 
-		const spec = await askLlm(PROMPT);
+        console.log(`Asking for Audit...`);
+        const spec = await askLlm(PROMPT);
+        count++;
 
-		count++;
+        console.log(`Spec file generated for url : ${item.metadata?.sourceURL}`);
+        console.log(`Writing to file...`);
 
-		console.log(
-			`Spec file generated for url : ${item.metadata?.sourceURL}`,
-		);
+        await writeFile(`./spec_file/${filename}`, JSON.stringify(spec || { data: null }));  
 
-		console.log(`Writing to file... `);
-		await writeFile(JSON.stringify(spec ||  {data : null}), `./spec_file/${filename}`);
-		console.log(`file written : filename= ${filename}`);
-
-		console.log(" ");
-		console.log("---------------");
-	});
+        console.log(`file written : filename= ${filename}`);
+        console.log(" ");
+        console.log("---------------");
+    }
 }
 
 export async function generateSpecFile(crawlId: string) {}
