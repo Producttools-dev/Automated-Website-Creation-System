@@ -27,4 +27,4 @@ export async function askLlm(prompt?: string) {
 	}
 }
 
-askLlm();
+// askLlm();

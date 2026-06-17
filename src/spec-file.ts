@@ -81,8 +81,11 @@ export async function generateSpecFiles(
     `;
 
 
-	for (const [index, item] of payload.data.entries()) {
-        if (count >= 5) break;                                    
+	// for (const [index, item] of payload.data.entries()) {
+    //     if (count >= 5) break;      
+	
+		const index = 1; 
+		const item = payload.data[0]!
 
         console.log(`For page url : ${index} : ${item.metadata?.sourceURL}`);
         const PROMPT = getPrompt(
@@ -111,7 +114,7 @@ export async function generateSpecFiles(
         console.log(`file written : filename= ${filename}`);
         console.log(" ");
         console.log("---------------");
-    }
+    // }
 }
 
 export async function generateSpecFile(crawlId: string) {}
